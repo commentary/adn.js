@@ -2,26 +2,25 @@ window.APPDOTNET = (function () {
 
     var default_options = {
         api_host: 'alpha-api.app.net',
-        auth_host: 'alpha.app.net',
+        auth_host: 'account.app.net',
         url_base: '/stream/0/',
-        authorize_endpoint: '/oauth/authenticate'
+        auth_endpoint: '/oauth/authenticate'
     };
 
     var API = {
 
         /* Before init you need to get an access token */
         /* Think of this like a static function versus a class method */
-        get_authorization_url: function (options) {
+        get_auth_url: function (options) {
             var local_options = $.extend({}, default_options, options);
-            var url = URI('https://' + local_options.auth_host + local_options.authorize_endpoint);
+            var url = URI('https://' + local_options.auth_host + local_options.auth_endpoint);
 
             url.addSearch('client_id', local_options.client_id);
             url.addSearch('redirect_uri', local_options.redirect_uri);
-            url.addSearch('response_type', 'token');
-            url.addSearch('scope', 'stream');
+            url.addSearch('response_type', local_options.response_type);
+            url.addSearch('scope', local_options.scope);
 
             return '' + url;
-
         },
 
         init: function (options) {

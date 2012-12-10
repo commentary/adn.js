@@ -47,8 +47,15 @@ window.APPDOTNET = (function () {
             return $.ajax(ajax_options);
         },
 
-        users: function (user_id) {
+        absoluteURL: function (location) {
+            return this.options.root_url + location;
+        },
+
+        // USERS //
+
+        getUser: function (user_id) {
             user_id = user_id || 'me';
+
             var options = {
                 type: 'GET'
             };
@@ -57,6 +64,55 @@ window.APPDOTNET = (function () {
 
             return this.request(url, options);
         },
+
+        getUsers: function (user_id_list) {
+            user_id_list = user_id_list || 'me';
+
+            if (typeof user_id_list === "array") {
+                user_id_list = user_id_list.join()
+            };
+
+            var options = {
+                type: 'GET'
+            };
+
+            var url = 'users?ids=' + encodeURI(user_id_list);
+
+            return this.request(url, options);
+        },
+
+        getUserAvatarURL: function (user_id) {
+            user_id = user_id || 'me';
+            var url = 'users/' + user_id + '/avatar';
+            return url;
+        },
+
+        getUserAvatar: function (user_id) {
+            var url = this.getUserAvatarURL(user_id);
+
+            var options = {
+                type: 'GET'
+            };
+            
+            return this.request(url, options);
+        },
+
+        getUserCoverURL: function (user_id) {
+            user_id = user_id || 'me';
+            var url = 'users/' + user_id + '/cover';
+            return url;
+        },
+
+        getUserCover: function (user_id) {
+            var url = this.getUserCoverURL(user_id);
+
+            var options = {
+                type: 'GET'
+            };
+
+            return this.request(url, options);
+        },
+
 
         mentions: function (user_id) {
             user_id = user_id || 'me';

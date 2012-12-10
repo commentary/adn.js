@@ -5,8 +5,82 @@
     var init = function () {
         API.init();
 
+        check_access_token();
+
         add_api_methods();
         activate_buttons();
+    }
+
+    var check_access_token = function () {
+        if (window.location.hash !== '' && !window.localStorage.access_token) {
+            var keys = URI('?' + window.location.hash.slice(1)).query(true);
+            if (keys && keys.access_token) {
+                window.localStorage.access_token = keys.access_token;
+
+                window.location.hash = ''; // for older browsers, leaves a # behind
+                history.pushState('', document.title, window.location.pathname); // nice and clean
+            }
+        }
+
+        console.log("Checking access token...");
+        if (window.localStorage.access_token) {
+            console.log("...user is authenticated");
+            login();
+        } else {
+            console.log("...not authenticated");
+            $('#logged-out').removeClass('hide');
+            ask_for_authentication();
+        }
+    };
+
+    var ask_for_authentication = function () {
+        console.log('Initializing authentication...');
+
+        $('#authenticate-button').on('click', function () {
+            console.log('authenticating...');
+            var url = API.get_auth_url(API_OPTIONS);
+            window.location.href = url;
+        });
+
+        console.log('...initialized.');
+    };
+
+    var logout = function () {
+        console.log('Logging out...');
+        $('#logged-in').addClass('hide');
+        $('#logged-out').removeClass('hide');
+
+        delete window.localStorage.access_token;
+        delete API.options.access_token;
+
+        console.log('...logged out.');
+
+        ask_for_authentication();
+    }
+
+
+    var login = function () {
+        $('#logged-out').addClass('hide');
+        $('#logged-in').removeClass('hide');
+
+        API_OPTIONS.access_token = window.localStorage.access_token;
+        API = API.init(API_OPTIONS);
+
+        $('#logout-button').on('click', function () {
+            logout();
+        });
+
+
+        var get_user_info = function () {
+            ///$('#authenticate').addClass('hide');
+
+            API.getUser().done(function (data) {
+                $('#userinfo').find('.user_full_name').text(data.data.name);
+                ///$('#userinfo').removeClass('hide');
+            });
+        }
+
+        get_user_info();
     }
 
     var add_api_methods = function() {

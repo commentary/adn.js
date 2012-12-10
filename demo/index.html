@@ -1,13 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>adn.js Demo</title>
+		<title>ADN.js Demo</title>
 
 		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
 	</head>
 	<body>
 		<div class="container">
-			<h1>adn.js</h1>
+			<h1>ADN.js</h1>
+
+			<div id="logged-out" class="hide">
+				<a class="btn btn-primary" id="authenticate-button">
+					Authenticate
+				</a>
+			</div>
+			<div id="logged-in" class="hide">
+				<div id="userinfo" >
+					You are logged in as <span class="user_full_name"><span class="label label-inverse">. . .</span></span>.
+					<a id="logout-button">Log out.</a>
+				</div>
+			</div>
 
 			<h2>Users</h2>
 			<div id="api-methods">
@@ -19,6 +31,16 @@
 		<script src="http://code.jquery.com/jquery-latest.js"></script>
 		<script src="bootstrap/js/bootstrap.min.js"></script>
 
+		<script type="text/javascript">
+			var API_OPTIONS = {
+				client_id: 'DceX7ax5hkeQdp6CCXkZek6FkbNdU92b',
+				redirect_uri: 'http://commentary.github.com/adn.js/demo/',
+				response_type: "token",
+				scope: "basic"
+			};
+		</script>
+
+		<script src="../URI.js"></script>
 		<script src="../api.js"></script>
 		<script src='demo.js'></script>
 	</body>

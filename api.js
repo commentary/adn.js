@@ -27,9 +27,9 @@ window.APPDOTNET = (function () {
             this.options = $.extend({}, default_options, options);
             this.options.root_url = 'https://' + this.options.api_host + this.options.url_base;
 
-            if (!this.options.access_token) {
-                throw 'You must initialize the API with an access_token or it wont work';
-            }
+            //if (!this.options.access_token) {
+            //    throw 'You must initialize the API with an access_token or it wont work';
+            //}
 
             if (this.options.no_globals) {
                 delete window.APPDOTNET;
